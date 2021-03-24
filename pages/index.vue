@@ -7,8 +7,12 @@
       </div>
       <v-card>
         <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
+          Welcome to the Vuetify + Nuxt.js template　{{Tid}}
         </v-card-title>
+        <v-btn
+            elevation="2"
+          @click="mesurement()"
+          ></v-btn>
         <v-card-text>
           <p>
             Vuetify is a progressive Material Design component framework for
@@ -89,5 +93,36 @@ export default {
     Logo,
     VuetifyLogo,
   },
+  data() {
+    return {
+      user:{},
+      items: [],
+      Tid:"naka"
+    }
+  },
+  created() {   
+    this.$store.dispatch('login')
+    //console.log(this.$store.state.user.Tid)
+    
+  },
+  methods:{
+    mesurement(){
+      this.Tid=this.$store.state.user.Tid
+      var Twitter = require('twitter');
+      var client = new Twitter({
+        consumer_key: this.$config.apiKey ,
+        consumer_secret: this.$config.apiKeySecret ,
+        access_token_key: this.$config.accessTokenKey,
+        access_token_secret: this.$config.accessTokenSecret 
+      });
+      
+      var params = {screen_name: 'nodejs'};
+      client.get('statuses/user_timeline', params, function(error, tweets, response) {
+        if (!error) {
+          console.log(tweets);
+        }
+      });
+    }
+  }
 }
 </script>
