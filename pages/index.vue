@@ -116,7 +116,7 @@ export default {
         access_token_secret: this.$config.accessTokenSecret 
       });
       
-      var params = {screen_name: 'nodejs'};
+      var params = {};
       client.get('statuses/user_timeline', params, function(error, tweets, response) {
         if (!error) {
           console.log(tweets);
