@@ -13,3 +13,10 @@ if (!firebase.apps.length) {
 }
 
 export default firebase
+
+// const firebaseFunctions = firebase.app().functions("asia-northeast1");
+// if ("http://localhost:3000") {
+//     firebaseFunctions.emulatorOrigin = "http://localhost:3000";
+// }
+
+// export const functions = firebaseFunctions;

@@ -5,14 +5,14 @@
         <logo />
         <vuetify-logo />
       </div>
+      <v-btn
+            elevation="2"
+            @click="mesurement()"
+          ></v-btn>
       <v-card>
         <v-card-title class="headline">
           Welcome to the Vuetify + Nuxt.js template　{{Tid}}
         </v-card-title>
-        <v-btn
-            elevation="2"
-          @click="mesurement()"
-          ></v-btn>
         <v-card-text>
           <p>
             Vuetify is a progressive Material Design component framework for
@@ -87,7 +87,7 @@
 <script>
 import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
-
+import firebase from '~/plugins/firebase'
 export default {
   components: {
     Logo,
@@ -106,22 +106,20 @@ export default {
     
   },
   methods:{
-    mesurement(){
-      this.Tid=this.$store.state.user.Tid
-      var Twitter = require('twitter');
-      var client = new Twitter({
-        consumer_key: this.$config.apiKey ,
-        consumer_secret: this.$config.apiKeySecret ,
-        access_token_key: this.$config.accessTokenKey,
-        access_token_secret: this.$config.accessTokenSecret 
-      });
-      
-      var params = {};
-      client.get('statuses/user_timeline', params, function(error, tweets, response) {
-        if (!error) {
-          console.log(tweets);
-        }
-      });
+    async mesurement(){
+      const functions = firebase.functions();
+      // if (process.env.NODE_ENV != "productions") {
+      //   functions.useFunctionsEmulator("http://localhost:4000");
+      // }
+      const hello = firebase.functions().httpsCallable('helloworld')
+      hello({ name: this.name })
+        .then((result) => {
+          console.log(result)
+          alert(result.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }
